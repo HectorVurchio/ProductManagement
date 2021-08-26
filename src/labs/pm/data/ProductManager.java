@@ -15,25 +15,19 @@
 
 package labs.pm.data;
 import java.math.BigDecimal;
-import java.time.LocalTime;
-public class Drink extends Product{
-	Drink(int id,String name,BigDecimal price,Rating rating){
-		super(id,name,price,rating);
+import java.time.LocalDate;
+/**
+*
+* @author HJVH
+* @version 1.0
+* @since 2021-08-26
+*/
+public class ProductManager{
+	public Product createProduct(int id,String name,BigDecimal price,Rating rating,LocalDate bestBefore){
+		return new Food(id,name,price,rating,bestBefore);
 	}
-	/**
-	* Calculate discount based on the current Time. Its should apply 
-	* 10% discount between 16:30 and 17:30
-	*/
-	@Override
-	public BigDecimal getDiscount(){
-		LocalTime now = LocalTime.now();
-		return (now.isAfter(LocalTime.of(17,30)) && now.isBefore(LocalTime.of(18,30))) ? super.getDiscount() : BigDecimal.ZERO;
-	}
-	/**
-	* Implementation of the abstract method in the parent class
-	*/
-	@Override
-	public Product applyRating(Rating newRating){
-		return new Drink(getId(),getName(),getPrice(),newRating);
+	
+	public Product createProduct(int id,String name,BigDecimal price,Rating rating){
+		return new Drink(id,name,price,rating);
 	}
 }
