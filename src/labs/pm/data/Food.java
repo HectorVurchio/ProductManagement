@@ -31,7 +31,13 @@ public class Food extends Product{
 	public LocalDate getBestBefore(){
 		return this.bestBefore;
 	}
-	
+	/**
+	* apply 10% discount if the product bestBefore date is today
+	*/
+	@Override 
+	public BigDecimal getDiscount(){
+		return (bestBefore.equals(LocalDate.now())) ? super.getDiscount() : BigDecimal.ZERO;
+	}
 	@Override
 	public String toString(){
 		return super.toString()+", "+bestBefore;

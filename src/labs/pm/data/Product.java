@@ -17,6 +17,7 @@ package labs.pm.data;
 import static labs.pm.data.Rating.*;
 import java.math.BigDecimal;
 import static java.math.RoundingMode.HALF_UP;
+import java.util.Objects;
 
 /**
 *
@@ -91,4 +92,28 @@ public class Product{
 	public String toString(){
 		return "Product(id = "+id+", name = "+name+", price = "+price+", rating = "+rating+")";
 	}
+	
+	/*
+		equals() and hashCode() must be overridden to provide custom mechanism for
+		comparing Product objects. Overriding equals() we are just interested to get
+		the same instance type but no the same reference.
+	*/
+	
+	@Override
+	public int hashCode(){
+		int hash = 5;
+		hash = 23*hash+this.id;
+		return hash;
+	}
+	@Override
+	public boolean equals(Object obj){
+		if(this == obj){return true;}
+		//if(obj != null && getClass() == obj.getClass()){
+		if(obj instanceof Product){
+			final Product other = (Product) obj;
+			return this.id == other.id && Objects.equals(this.name,other.name);
+		}
+		return false;
+	}
+	
 }
