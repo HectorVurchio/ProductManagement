@@ -56,24 +56,14 @@ public class Product{
 		return this.id;
 	}
 	
-	public void setId(int id){
-		this.id = id;
-	}
-	
 	public String getName(){
 		return this.name;
-	}
-	
-	public void setName(String name){
-		this.name = name;
 	}
 	
 	public BigDecimal getPrice(){
 		return this.price;
 	}
-	public void setPrice(BigDecimal price){
-		this.price = price;
-	}
+	
 	/**
 	* Calculates discounts based on a product price and
 	* {@link DISCOUNT_RATE discount rate}
@@ -88,5 +78,12 @@ public class Product{
 	
 	public Rating getRating(){
 		return this.rating;
+	}
+	/**
+	* Copy the values of the existing product object but with 
+	* a new value of Rating.
+	*/
+	public Product applyRating(Rating newRating){
+		return new Product(this.id,this.name,this.price,newRating);
 	}
 }
