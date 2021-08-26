@@ -42,4 +42,11 @@ public class Food extends Product{
 	public String toString(){
 		return super.toString()+", "+bestBefore;
 	} 
+	/**
+	* Implementation of the abstract method in the parent class
+	*/
+	@Override
+	public Product applyRating(Rating newRating){
+		return new Food(getId(),getName(),getPrice(),newRating,bestBefore);
+	}
 }

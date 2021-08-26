@@ -18,14 +18,14 @@ import static labs.pm.data.Rating.*;
 import java.math.BigDecimal;
 import static java.math.RoundingMode.HALF_UP;
 import java.util.Objects;
-
+import java.time.LocalDate;
 /**
 *
 * @author HJVH
 * @version 1.0
 * @since 2021-08-26
 */
-public class Product{
+public abstract class Product{
 	/**
 	* A constant that defines a {@link java.math.BigDecimal BigDecimal} value
 	* of the discount rate
@@ -84,13 +84,22 @@ public class Product{
 	* Copy the values of the existing product object but with 
 	* a new value of Rating.
 	*/
-	public Product applyRating(Rating newRating){
-		return new Product(this.id,this.name,this.price,newRating);
+	public abstract Product applyRating(Rating newRating);
+	//{
+		//return new Product(this.id,this.name,this.price,newRating);
+	//}
+	
+	/**
+	* Get the value of bestBefore
+	* @return the value of bestBefore
+	*/
+	public LocalDate getBestBefore(){
+		return LocalDate.now();
 	}
 	
 	@Override
 	public String toString(){
-		return "Product(id = "+id+", name = "+name+", price = "+price+", rating = "+rating+")";
+	return id+", "+name+", "+price+", "+getDiscount()+", "+rating.getStars()+", "+getBestBefore();
 	}
 	
 	/*
