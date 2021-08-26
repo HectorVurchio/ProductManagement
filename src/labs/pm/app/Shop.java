@@ -32,3 +32,8 @@ public class Shop{
 		System.out.println(p1.getId()+" "+p1.getName()+" "+p1.getPrice()+" "+p1.getDiscount());
 	}
 }
+
+/*
+javac -d compiled src/labs/pm/data/*.java src/labs/pm/app/Shop.java
+
+*/

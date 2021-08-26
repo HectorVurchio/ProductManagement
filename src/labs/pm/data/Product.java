@@ -27,6 +27,7 @@ public class Product{
 	private int id;
 	private String name;
 	private BigDecimal price;
+	private Rating rating;
 	
 	public int getId(){
 		return this.id;
@@ -50,9 +51,19 @@ public class Product{
 	public void setPrice(BigDecimal price){
 		this.price = price;
 	}
-	//public BigDecimal setScale​(int newScale, RoundingMode roundingMode)
-	//newScale => amounts of decimals digits
-	public BigDecimal.getDiscount(){
+	/**
+	* Calculates discounts based on a product price and
+	* {@link DISCOUNT_RATE discount rate}
+	* 
+	* public BigDecimal setScale​(int newScale, RoundingMode roundingMode)
+	* newScale => amounts of decimals digits
+	* @return a {@link java.math.BigDecimal BigDecimal} value of the discount
+	*/
+	public BigDecimal getDiscount(){
 		return price.multiply(DISCOUNT_RATE).setScale(2,HALF_UP);
+	}
+	
+	public Rating getRating(){
+		return this.rating;
 	}
 }

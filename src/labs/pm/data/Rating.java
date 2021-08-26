@@ -15,6 +15,30 @@
 
 package labs.pm.data;
 
-public class Rating{
+public enum Rating{
+	NOT_RATED("Zero Stars"),
+	ONE_STAR("One Star"),
+	TWO_STAR("Two Stars"),
+	THREE_STAR("Three Stars"),
+	FOUR_STAR("Four Stars"),
+	FIVE_STAR("Five Stars");
+	private String stars;
 	
+	private Rating(String stars){
+		this.stars = stars;
+	}
+	
+	public String getStars(){
+		return this.stars;
+	}
 }
+
+/*
+	NOT_RATED("\u2606\u2606\u2606\u2606\u2606"),
+	ONE_STAR("\u2605\u2606\u2606\u2606\u2606"),
+	TWO_STAR("\u2605\u2605\u2606\u2606\u2606"),
+	THREE_STAR("\u2605\u2605\u2605\u2606\u2606"),
+	FOUR_STAR("\u2605\u2605\u2605\u2605\u2606"),
+	FIVE_STAR("\u2605\u2605\u2605\u2605\u2605");
+	
+*/
