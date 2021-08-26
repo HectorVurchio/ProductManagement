@@ -15,6 +15,7 @@
 
 package labs.pm.data;
 import java.math.BigDecimal;
+import static java.math.RoundingMode.HALF_UP;
 /**
 *
 * @author HJVH
@@ -22,6 +23,7 @@ import java.math.BigDecimal;
 * @since 2021-08-26
 */
 public class Product{
+	public static final BigDecimal DISCOUNT_RATE = BigDecimal.valueOf(0.1);
 	private int id;
 	private String name;
 	private BigDecimal price;
@@ -47,5 +49,10 @@ public class Product{
 	}
 	public void setPrice(BigDecimal price){
 		this.price = price;
+	}
+	//public BigDecimal setScale​(int newScale, RoundingMode roundingMode)
+	//newScale => amounts of decimals digits
+	public BigDecimal.getDiscount(){
+		return price.multiply(DISCOUNT_RATE).setScale(2,HALF_UP);
 	}
 }
