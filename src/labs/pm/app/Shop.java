@@ -36,6 +36,11 @@ public class Shop{
 		Product p1 = pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99),Rating.NOT_RATED);
 		pm.printProductReport();
 		p1 = pm.reviewProduct(p1,Rating.FOUR_STAR,"nice hot cup tea");
+		p1 = pm.reviewProduct(p1,Rating.TWO_STAR,"rather weak tea");
+		p1 = pm.reviewProduct(p1,Rating.FOUR_STAR,"fine tea");
+		p1 = pm.reviewProduct(p1,Rating.FOUR_STAR,"good tea");
+		p1 = pm.reviewProduct(p1,Rating.FIVE_STAR,"perfect tea");
+		p1 = pm.reviewProduct(p1,Rating.THREE_STAR,"just add some lemon");
 		pm.printProductReport();
 		
 		/* Product p1 = pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99),Rating.THREE_STAR);
