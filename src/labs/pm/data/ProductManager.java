@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.FormatStyle;
 import java.util.Locale;
-import java.util.ResourceBoundle;
+import java.util.ResourceBundle;
 import java.time.format.DateTimeFormatter;
 import java.text.NumberFormat;
 import java.text.MessageFormat;
@@ -31,7 +31,7 @@ import java.text.MessageFormat;
 */
 public class ProductManager{
 	private Locale locale;
-	private ResourceBoundle resources;
+	private ResourceBundle resources;
 	private DateTimeFormatter dateFormat;
 	private NumberFormat moneyFormat;
 	
@@ -40,7 +40,7 @@ public class ProductManager{
 	
 	public ProductManager(Locale locale){
 		this.locale = locale;
-		resources = ResourceBundle.getBoundle("labs.pm.data.resources",locale);
+		resources = ResourceBundle.getBundle("labs.pm.data.resources",locale);
 		dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).localizedBy(locale);
 		moneyFormat = NumberFormat.getCurrencyInstance(locale);
 	}
@@ -68,7 +68,7 @@ public class ProductManager{
 										product.getName(),
 										moneyFormat.format(product.getPrice()),
 										product.getRating().getStars(),
-										datFormat.format(product.getBestBefore())));
+										dateFormat.format(product.getBestBefore())));
 		txt.append("\n");
 		if(review != null){
 			txt.append(MessageFormat.format(resources.getString("review"),
