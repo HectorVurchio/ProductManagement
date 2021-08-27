@@ -42,9 +42,7 @@ public class Shop{
 		Product p8 = p4.applyRating(Rating.FIVE_STAR);
 		Product p9 = p1.applyRating(Rating.TWO_STAR);
 		System.out.println(p6.equals(p7));
-		
-		
-		
+	
 		System.out.println(p1);
 		System.out.println(p2);
 		System.out.println(p3);
@@ -54,15 +52,7 @@ public class Shop{
 		System.out.println(p7);
 		System.out.println(p8);
 		System.out.println(p9);
-		
-		
-		/*
-		System.out.println(p1.getId()+" "+p1.getName()+" "+p1.getPrice()+" "+p1.getDiscount()+" "+p1.getRating().getStars());
-		System.out.println(p2.getId()+" "+p2.getName()+" "+p2.getPrice()+" "+p2.getDiscount()+" "+p2.getRating().getStars());
-		System.out.println(p3.getId()+" "+p3.getName()+" "+p3.getPrice()+" "+p3.getDiscount()+" "+p3.getRating().getStars());
-		System.out.println(p4.getId()+" "+p4.getName()+" "+p4.getPrice()+" "+p4.getDiscount()+" "+p4.getRating().getStars());
-		System.out.println(p5.getId()+" "+p5.getName()+" "+p5.getPrice()+" "+p5.getDiscount()+" "+p5.getRating().getStars());
-		*/
+
 	}
 }
 
