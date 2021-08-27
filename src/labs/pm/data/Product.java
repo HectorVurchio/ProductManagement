@@ -25,7 +25,7 @@ import java.time.LocalDate;
 * @version 1.0
 * @since 2021-08-26
 */
-public abstract class Product{
+public abstract class Product implements Rateable<Product>{
 	/**
 	* A constant that defines a {@link java.math.BigDecimal BigDecimal} value
 	* of the discount rate
@@ -78,18 +78,10 @@ public abstract class Product{
 	public BigDecimal getDiscount(){
 		return price.multiply(DISCOUNT_RATE).setScale(2,HALF_UP);
 	}
-	
+	@Override
 	public Rating getRating(){
 		return this.rating;
 	}
-	/**
-	* Copy the values of the existing product object but with 
-	* a new value of Rating.
-	*/
-	public abstract Product applyRating(Rating newRating);
-	//{
-		//return new Product(this.id,this.name,this.price,newRating);
-	//}
 	
 	/**
 	* Get the value of bestBefore
