@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.time.format.DateTimeFormatter;
 import java.text.NumberFormat;
 import java.text.MessageFormat;
@@ -58,6 +59,11 @@ public class ProductManager{
 		products.putIfAbsent(product,new ArrayList<>());
 		return product;
 	}
+	
+	public Product reviewProduct(int id,Rating rating,String comments){
+		return reviewProduct(findProduct(id),rating,comments);
+	}
+	
 	public Product reviewProduct(Product product,Rating rating,String comments){
 		List<Review> reviews = products.get(product);
 		products.remove(product,reviews);
@@ -71,6 +77,21 @@ public class ProductManager{
 		return product;
 	}
 	
+	public Product findProduct(int id){
+		Product result = null;
+		for(Product product : products.keySet()){
+			if(product.getId() == id){
+				result = product;
+				break;
+			}
+		}
+		return result;
+	}
+	
+	public void printProductReport(int id){
+		printProductReport(findProduct(id));
+	}
+	
 	public void printProductReport(Product product){
 		List<Review> reviews = products.get(product);
 		StringBuilder txt = new StringBuilder();
@@ -80,8 +101,9 @@ public class ProductManager{
 										product.getRating().getStars(),
 										dateFormat.format(product.getBestBefore())));
 		txt.append("\n");
+		//get reviews sorted by stars
+		Collections.sort(reviews);
 		for(Review review : reviews){
-			
 			txt.append(MessageFormat.format(resources.getString("review"),
 												review.getRating().getStars(),
 												review.getComments()));
