@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Comparator;
+import java.util.function.Predicate;
 
 /**
 * @author HJVH
@@ -35,7 +36,7 @@ public class Shop{
 	public static void main(String[] args){
 		ProductManager pm = new ProductManager(Locale.UK);
 		pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99),Rating.NOT_RATED);
-		pm.printProductReport(101);
+		//pm.printProductReport(101);
 		pm.reviewProduct(101,Rating.FOUR_STAR,"nice hot cup tea");
 		pm.reviewProduct(101,Rating.TWO_STAR,"rather weak tea");
 		pm.reviewProduct(101,Rating.FOUR_STAR,"fine tea");
@@ -73,17 +74,22 @@ public class Shop{
 		pm.reviewProduct(106,Rating.THREE_STAR,"Better than cookie");
 		pm.reviewProduct(106,Rating.TWO_STAR,"Too bitter");
 		pm.reviewProduct(106,Rating.ONE_STAR,"I don't get it");
-		//pm.printProductReport(106);
-		/*
-		pm.printProducts((p1,p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
+		pm.printProductReport(106);
+		
+		pm.printProducts(p -> p.getPrice().floatValue() < 2,
+							(p1,p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
+	/*
 		System.out.println("Sorting by price");
 		pm.printProducts((p1,p2)-> p2.getPrice().compareTo(p1.getPrice()));
-		*/
+	
 		Comparator<Product> ratingSorter = (p1,p2) -> p2.getRating().ordinal() - p1.getRating().ordinal();
 		Comparator<Product> priceSorter = (p1,p2)-> p2.getPrice().compareTo(p1.getPrice());
-		pm.printProducts(ratingSorter.thenComparing(priceSorter));
-		System.out.println(" reversed");
-		pm.printProducts(ratingSorter.thenComparing(priceSorter).reversed());
+		Predicate<Product> filter = p -> p.getPrice().floatValue() < 2;
+		
+		//pm.printProducts(ratingSorter.thenComparing(priceSorter));
+		//System.out.println(" reversed");
+		//pm.printProducts(ratingSorter.thenComparing(priceSorter).reversed());
+	*/
 		
 		/* Product p1 = pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99),Rating.THREE_STAR);
 		Product p2 = pm.createProduct(102,"Coffee",BigDecimal.valueOf(1.99),Rating.FOUR_STAR);

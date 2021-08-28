@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
 import java.util.Comparator;
+import java.util.stream.Collectors;
+import java.util.function.Predicate;
 import java.time.format.DateTimeFormatter;
 import java.text.NumberFormat;
 import java.text.MessageFormat;
@@ -86,16 +88,25 @@ public class ProductManager{
 		List<Review> reviews = products.get(product);
 		products.remove(product,reviews);
 		reviews.add(new Review(rating,comments));
+	/*
 		int sum = 0;
 		for(Review review : reviews){
 			sum += review.getRating().ordinal();
 		}
 		product = product.applyRating(Rateable.convert(Math.round((float)sum/reviews.size())));
+	*/	
+		product.applyRating(Rateable.convert((int)Math.round(reviews
+																.stream()
+																.mapToInt(r -> r.getRating().ordinal())
+																.average()
+																.orElse(0))));
 		products.put(product,reviews);
 		return product;
 	}
 	
 	public Product findProduct(int id){
+		
+	/*
 		Product result = null;
 		for(Product product : products.keySet()){
 			if(product.getId() == id){
@@ -104,6 +115,13 @@ public class ProductManager{
 			}
 		}
 		return result;
+	*/	
+		return products
+					.keySet()
+					.stream()
+					.filter(p -> p.getId() == id)
+					.findFirst()
+					.orElseGet(() -> null);
 	}
 	
 	public void printProductReport(int id){
@@ -112,11 +130,20 @@ public class ProductManager{
 	
 	public void printProductReport(Product product){
 		List<Review> reviews = products.get(product);
+		//get reviews sorted by stars
+		Collections.sort(reviews);
 		StringBuilder txt = new StringBuilder();
 		txt.append(formatter.formatProduct(product));
 		txt.append("\n");
-		//get reviews sorted by stars
-		Collections.sort(reviews);
+		
+		if(reviews.isEmpty()){
+			txt.append(formatter.getText("no.reviews")+"\n");
+		}else{
+			txt.append(reviews.stream()
+								.map(r -> formatter.formatReview(r) + "\n")
+								.collect(Collectors.joining()));
+		}	
+	/*
 		for(Review review : reviews){
 			txt.append(formatter.formatReview(review));
 			txt.append("\n");
@@ -125,17 +152,26 @@ public class ProductManager{
 			txt.append(formatter.getText("no.reviews"));
 			txt.append("\n");
 		}
+	*/
 		System.out.println(txt);
 	}
 	
-	public void printProducts(Comparator<Product> sorter){
+	public void printProducts(Predicate<Product> filter,Comparator<Product> sorter){
+	/*
 		List<Product> productList = new ArrayList<>(products.keySet());
 		productList.sort(sorter);
-		StringBuilder txt = new StringBuilder();
+	*/
+		StringBuilder txt = new StringBuilder();	
+	/*
 		for(Product product : productList){
 			txt.append(formatter.formatProduct(product));
 			txt.append("\n");
 		}
+	*/
+		products.keySet().stream()
+							.sorted(sorter)
+							.filter(filter)
+							.forEach(p -> txt.append(formatter.formatProduct(p)+"\n"));
 		System.out.println(txt);
 	}
 	
