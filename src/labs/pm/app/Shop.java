@@ -78,6 +78,9 @@ public class Shop{
 		
 		pm.printProducts(p -> p.getPrice().floatValue() < 2,
 							(p1,p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
+							
+		pm.getDiscounts().forEach((rating,discount) -> System.out.println(rating + "\t"+ discount));
+
 	/*
 		System.out.println("Sorting by price");
 		pm.printProducts((p1,p2)-> p2.getPrice().compareTo(p1.getPrice()));
@@ -117,5 +120,6 @@ public class Shop{
 
 /*
 javac -d compiled src/labs/pm/data/*.java src/labs/pm/app/Shop.java
+
 
 */
