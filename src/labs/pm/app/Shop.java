@@ -36,13 +36,16 @@ public class Shop{
 	public static void main(String[] args){
 		ProductManager pm = new ProductManager(Locale.UK);
 		pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99),Rating.NOT_RATED);
-		pm.printProductReport(42);
-		pm.reviewProduct(42,Rating.FOUR_STAR,"nice hot cup tea");
+		pm.printProductReport(101);
+		pm.parseReview("101,4,nice cup of tea");
+	/*
+		pm.reviewProduct(101,Rating.FOUR_STAR,"nice hot cup tea");
 		pm.reviewProduct(101,Rating.TWO_STAR,"rather weak tea");
 		pm.reviewProduct(101,Rating.FOUR_STAR,"fine tea");
 		pm.reviewProduct(101,Rating.FOUR_STAR,"good tea");
 		pm.reviewProduct(101,Rating.FIVE_STAR,"perfect tea");
 		pm.reviewProduct(101,Rating.THREE_STAR,"just add some lemon");
+	*/
 		//pm.printProductReport(101);
 	/*	
 		//pm.changeLocale("es-VE");

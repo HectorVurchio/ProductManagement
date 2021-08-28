@@ -34,6 +34,7 @@ import java.util.logging.Level;
 import java.time.format.DateTimeFormatter;
 import java.text.NumberFormat;
 import java.text.MessageFormat;
+import java.text.ParseException;
 
 /**
 *
@@ -45,6 +46,9 @@ public class ProductManager{
 	
 	private Map<Product,List<Review>> products = new HashMap<>();
 	private ResourceFormatter formatter;
+	private ResourceBundle config = ResourceBundle.getBundle("labs.pm.data.config");
+	private MessageFormat reviewFormat = new MessageFormat(config.getString("review.data.format"));
+	private MessageFormat productFormat = new MessageFormat(config.getString("product.data.format"));
 	private static Map<String,ResourceFormatter> formatters = Map.of(
 											"en-GB",new ResourceFormatter(Locale.UK),
 											"en-US",new ResourceFormatter(Locale.US),
@@ -142,11 +146,24 @@ public class ProductManager{
 	}
 	
 	public void printProducts(Predicate<Product> filter,Comparator<Product> sorter){
+		StringBuilder txt = new StringBuilder();
 		products.keySet().stream()
 							.sorted(sorter)
 							.filter(filter)
 							.forEach(p -> txt.append(formatter.formatProduct(p)+"\n"));
 		System.out.println(txt);
+	}
+	
+	public void parseReview(String text){
+		try{
+			Object[] values = reviewFormat.parse(text);
+			reviewProduct(
+					Integer.parseInt((String)values[0]),
+					Rateable.convert(Integer.parseInt((String)values[1])),
+					(String)values[2]);
+		}catch(ParseException ex){
+			logger.log(Level.WARNING,"Error parsing review "+text);
+		}
 	}
 	
 	public Map<String,String> getDiscounts(){
