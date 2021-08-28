@@ -38,6 +38,14 @@ public class Shop{
 		pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99),Rating.NOT_RATED);
 		pm.printProductReport(101);
 		pm.parseReview("101,4,nice cup of tea");
+		pm.parseReview("101,2,rather weak tea");
+		pm.parseReview("101,4,fine tea");
+		pm.parseReview("101,4,good tea");
+		pm.parseReview("101,5,perfect tea");
+		pm.parseReview("101,3,just add some lemon");
+		pm.printProductReport(101);
+		
+		
 	/*
 		pm.reviewProduct(101,Rating.FOUR_STAR,"nice hot cup tea");
 		pm.reviewProduct(101,Rating.TWO_STAR,"rather weak tea");
