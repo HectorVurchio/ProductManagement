@@ -29,6 +29,8 @@ import java.util.Set;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 import java.util.function.Predicate;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.time.format.DateTimeFormatter;
 import java.text.NumberFormat;
 import java.text.MessageFormat;
@@ -51,6 +53,8 @@ public class ProductManager{
 											"it-IT",new ResourceFormatter(Locale.ITALY),
 											"de-DE",new ResourceFormatter(Locale.GERMANY));
 	
+	
+	private static final Logger logger = Logger.getLogger(ProductManager.class.getName());
 	
 	public ProductManager(Locale locale){
 		this(locale.toLanguageTag());
@@ -81,20 +85,18 @@ public class ProductManager{
 	}
 	
 	public Product reviewProduct(int id,Rating rating,String comments){
-		return reviewProduct(findProduct(id),rating,comments);
+		try{
+			return reviewProduct(findProduct(id),rating,comments);
+		}catch(ProductManagerException ex){
+			logger.log(Level.INFO,"Product with id "+id+" not found.",ex.getMessage());
+		}
+		return null;
 	}
 	
 	public Product reviewProduct(Product product,Rating rating,String comments){
 		List<Review> reviews = products.get(product);
 		products.remove(product,reviews);
 		reviews.add(new Review(rating,comments));
-	/*
-		int sum = 0;
-		for(Review review : reviews){
-			sum += review.getRating().ordinal();
-		}
-		product = product.applyRating(Rateable.convert(Math.round((float)sum/reviews.size())));
-	*/	
 		product.applyRating(Rateable.convert((int)Math.round(reviews
 																.stream()
 																.mapToInt(r -> r.getRating().ordinal())
@@ -104,28 +106,21 @@ public class ProductManager{
 		return product;
 	}
 	
-	public Product findProduct(int id){
-		
-	/*
-		Product result = null;
-		for(Product product : products.keySet()){
-			if(product.getId() == id){
-				result = product;
-				break;
-			}
-		}
-		return result;
-	*/	
+	public Product findProduct(int id) throws ProductManagerException{
 		return products
 					.keySet()
 					.stream()
 					.filter(p -> p.getId() == id)
 					.findFirst()
-					.orElseGet(() -> null);
+					.orElseThrow(() -> new ProductManagerException("Product with id "+id+" not found."));
 	}
 	
 	public void printProductReport(int id){
-		printProductReport(findProduct(id));
+		try{
+			printProductReport(findProduct(id));
+		}catch(ProductManagerException ex){
+			logger.log(Level.INFO,"Product with id "+id+" not found.",ex.getMessage());
+		}
 	}
 	
 	public void printProductReport(Product product){
@@ -143,31 +138,10 @@ public class ProductManager{
 								.map(r -> formatter.formatReview(r) + "\n")
 								.collect(Collectors.joining()));
 		}	
-	/*
-		for(Review review : reviews){
-			txt.append(formatter.formatReview(review));
-			txt.append("\n");
-		}
-		if(reviews.isEmpty()){
-			txt.append(formatter.getText("no.reviews"));
-			txt.append("\n");
-		}
-	*/
 		System.out.println(txt);
 	}
 	
 	public void printProducts(Predicate<Product> filter,Comparator<Product> sorter){
-	/*
-		List<Product> productList = new ArrayList<>(products.keySet());
-		productList.sort(sorter);
-	*/
-		StringBuilder txt = new StringBuilder();	
-	/*
-		for(Product product : productList){
-			txt.append(formatter.formatProduct(product));
-			txt.append("\n");
-		}
-	*/
 		products.keySet().stream()
 							.sorted(sorter)
 							.filter(filter)
@@ -187,12 +161,7 @@ public class ProductManager{
 													discount -> formatter.moneyFormat.format(discount))
 																											));
 	}
-	
-	
-	public Map<Product,List<Review>> getProducts(){
-		return products;
-	}
-	
+
 	private static class ResourceFormatter{
 		private Locale locale;
 		private ResourceBundle resources;

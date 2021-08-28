@@ -36,15 +36,15 @@ public class Shop{
 	public static void main(String[] args){
 		ProductManager pm = new ProductManager(Locale.UK);
 		pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99),Rating.NOT_RATED);
-		//pm.printProductReport(101);
-		pm.reviewProduct(101,Rating.FOUR_STAR,"nice hot cup tea");
+		pm.printProductReport(42);
+		pm.reviewProduct(42,Rating.FOUR_STAR,"nice hot cup tea");
 		pm.reviewProduct(101,Rating.TWO_STAR,"rather weak tea");
 		pm.reviewProduct(101,Rating.FOUR_STAR,"fine tea");
 		pm.reviewProduct(101,Rating.FOUR_STAR,"good tea");
 		pm.reviewProduct(101,Rating.FIVE_STAR,"perfect tea");
 		pm.reviewProduct(101,Rating.THREE_STAR,"just add some lemon");
 		//pm.printProductReport(101);
-		
+	/*	
 		//pm.changeLocale("es-VE");
 		pm.createProduct(102,"Coffee",BigDecimal.valueOf(1.99),Rating.NOT_RATED);
 		pm.reviewProduct(102,Rating.THREE_STAR,"Coffee was ok");
@@ -80,7 +80,7 @@ public class Shop{
 							(p1,p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
 							
 		pm.getDiscounts().forEach((rating,discount) -> System.out.println(rating + "\t"+ discount));
-
+	*/
 	/*
 		System.out.println("Sorting by price");
 		pm.printProducts((p1,p2)-> p2.getPrice().compareTo(p1.getPrice()));
