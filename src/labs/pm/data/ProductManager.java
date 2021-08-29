@@ -82,6 +82,7 @@ public class ProductManager{
 	
 	public ProductManager(String languageTag){
 		changeLocale(languageTag);
+		loadAllData();
 	}
 	
 	public void changeLocale(String languageTag){
@@ -173,6 +174,18 @@ public class ProductManager{
 		System.out.println(txt);
 	}
 	
+	private void loadAllData(){
+		try{
+			products = Files.list(dataFolder) /*Stream<Path>*/
+							.filter(file -> file.getFileName().toString().startsWith("product"))
+							.map(file -> loadProduct(file))
+							.filter(product -> product != null)
+							.collect(Collectors.toMap(product -> product, product -> loadReviews(product)));
+		}catch(IOException ex){
+			logger.log(Level.WARNING,"Error loading data "+ex.getMessage(),ex);
+		}
+	}
+	
 	private List<Review> loadReviews(Product product){
 		List<Review> reviews = null;
 		Path file = dataFolder.resolve(
@@ -199,13 +212,13 @@ public class ProductManager{
 						Files.lines(dataFolder.resolve(file),Charset.forName("UTF-8"))
 						.findFirst()
 						.orElseThrow());
-		}catch(IOException ex){
+		}catch(Exception ex){
 			logger.log(Level.WARNING,"Error loading product "+ex.getMessage());
 		}
 		return product;
 	}
 	
-	public Review parseReview(String text){
+	private Review parseReview(String text){
 		Review review = null;
 		try{
 			Object[] values = reviewFormat.parse(text);
@@ -216,7 +229,7 @@ public class ProductManager{
 		return review;
 	}
 	
-	public Product parseProduct(String text){
+	private Product parseProduct(String text){
 		Product product = null;
 		try{
 			Object[] values = productFormat.parse(text);
