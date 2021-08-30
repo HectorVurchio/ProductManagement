@@ -56,7 +56,7 @@ import java.io.ObjectInputStream;
 public class ProductManager{
 	
 	private Map<Product,List<Review>> products = new HashMap<>();
-	private ResourceFormatter formatter;
+//	private ResourceFormatter formatter;
 	private ResourceBundle config = ResourceBundle.getBundle("labs.pm.data.config");
 	private MessageFormat reviewFormat = new MessageFormat(config.getString("review.data.format"));
 	private MessageFormat productFormat = new MessageFormat(config.getString("product.data.format"));
@@ -78,20 +78,25 @@ public class ProductManager{
 	
 	
 	private static final Logger logger = Logger.getLogger(ProductManager.class.getName());
+	private static final ProductManager pm = new ProductManager();
 	
+	public static ProductManager getInstance(){
+		return pm;
+	}
+/*	
 	public ProductManager(Locale locale){
 		this(locale.toLanguageTag());
 	}
-	
-	public ProductManager(String languageTag){
-		changeLocale(languageTag);
+*/	
+	private ProductManager(){
+		//changeLocale(languageTag);
 		loadAllData();
 	}
-	
+/*	
 	public void changeLocale(String languageTag){
 		formatter = formatters.getOrDefault(languageTag,formatters.get("en-GB"));
 	}
-	
+*/	
 	public static Set<String> getSupportedLocales(){
 		return formatters.keySet();
 	}
@@ -139,9 +144,9 @@ public class ProductManager{
 					.orElseThrow(() -> new ProductManagerException("Product with id "+id+" not found."));
 	}
 	
-	public void printProductReport(int id){
+	public void printProductReport(int id,String languageTag){
 		try{
-			printProductReport(findProduct(id));
+			printProductReport(findProduct(id),languageTag);
 		}catch(ProductManagerException ex){
 			logger.log(Level.INFO,"Product with id "+id+" not found.",ex.getMessage());
 		}catch(IOException ex){
@@ -149,7 +154,8 @@ public class ProductManager{
 		}
 	}
 	
-	public void printProductReport(Product product) throws IOException{
+	public void printProductReport(Product product,String languageTag) throws IOException{
+		ResourceFormatter formatter = formatters.getOrDefault(languageTag,formatters.get("en-GB"));
 		List<Review> reviews = products.get(product);
 		//get reviews sorted by stars
 		Collections.sort(reviews);
@@ -168,7 +174,8 @@ public class ProductManager{
 		}
 	}
 	
-	public void printProducts(Predicate<Product> filter,Comparator<Product> sorter){
+	public void printProducts(Predicate<Product> filter,Comparator<Product> sorter,String languageTag){
+		ResourceFormatter formatter = formatters.getOrDefault(languageTag,formatters.get("en-GB"));
 		StringBuilder txt = new StringBuilder();
 		products.keySet().stream()
 							.sorted(sorter)
@@ -286,7 +293,8 @@ public class ProductManager{
 		return product;
 	}
 	
-	public Map<String,String> getDiscounts(){
+	public Map<String,String> getDiscounts(String languageTag){
+		ResourceFormatter formatter = formatters.getOrDefault(languageTag,formatters.get("en-GB"));
 		return products
 					.keySet()
 					.stream()

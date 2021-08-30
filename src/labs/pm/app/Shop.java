@@ -34,6 +34,12 @@ public class Shop{
 	* @param args the command line arguments
 	*/
 	public static void main(String[] args){
+		//ProductManager pm = new ProductManager();
+		ProductManager pm = ProductManager.getInstance();
+		pm.printProductReport(101,"en-GB");
+		pm.printProductReport(103,"es-VE");
+		
+	/*	
 		ProductManager pm = new ProductManager(Locale.UK);
 		pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99),Rating.NOT_RATED);
 		pm.printProductReport(101);
@@ -51,6 +57,7 @@ public class Shop{
 							(p1,p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
 							
 		pm.getDiscounts().forEach((rating,discount) -> System.out.println(rating + "\t"+ discount));
+	*/
 	}
 }
 
