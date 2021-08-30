@@ -19,13 +19,14 @@ import java.math.BigDecimal;
 import static java.math.RoundingMode.HALF_UP;
 import java.util.Objects;
 import java.time.LocalDate;
+import java.io.Serializable;
 /**
 *
 * @author HJVH
 * @version 1.0
 * @since 2021-08-26
 */
-public abstract class Product implements Rateable<Product>{
+public abstract class Product implements Rateable<Product>, Serializable{
 	/**
 	* A constant that defines a {@link java.math.BigDecimal BigDecimal} value
 	* of the discount rate

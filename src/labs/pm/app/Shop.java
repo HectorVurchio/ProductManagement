@@ -35,7 +35,7 @@ public class Shop{
 	*/
 	public static void main(String[] args){
 		ProductManager pm = new ProductManager(Locale.UK);
-		//pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99),Rating.NOT_RATED);
+		pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99),Rating.NOT_RATED);
 		pm.printProductReport(101);
 		pm.printProductReport(103);
 		
@@ -45,7 +45,8 @@ public class Shop{
 		pm.reviewProduct(164,Rating.FOUR_STAR,"This is not tea");
 		pm.reviewProduct(164,Rating.FIVE_STAR,"Perfect!");
 		pm.printProductReport(164);
-			
+		//pm.dumpData();
+		//pm.restoreData();
 		pm.printProducts(p -> p.getPrice().floatValue() < 2,
 							(p1,p2) -> p2.getRating().ordinal() - p1.getRating().ordinal());
 							
