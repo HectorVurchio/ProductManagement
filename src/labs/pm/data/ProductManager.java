@@ -108,7 +108,7 @@ public class ProductManager{
 	}
 	
 	public Product createProduct(int id,String name,BigDecimal price,Rating rating,LocalDate bestBefore){
-		Product product  null;
+		Product product = null;
 		try{
 			writeLock.lock();
 			product = new Food(id,name,price,rating,bestBefore);
@@ -125,12 +125,12 @@ public class ProductManager{
 		Product product = null;
 		try{
 			writeLock.lock();
-			Product product = new Drink(id,name,price,rating);
+			product = new Drink(id,name,price,rating);
 			products.putIfAbsent(product,new ArrayList<>());
 		}catch(Exception ex){
 			logger.log(Level.INFO,"Error adding product "+ex.getMessage());
 		}finally{
-			writelock.unlock();
+			writeLock.unlock();
 		}
 		return product;
 	}
@@ -346,7 +346,7 @@ public class ProductManager{
 														discount -> formatter.moneyFormat.format(discount))
 																											));
 		}finally{
-			readLOck.unlock();
+			readLock.unlock();
 		}
 	}
 
